@@ -4,7 +4,7 @@ Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	8
+Release:	9
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
@@ -14,6 +14,7 @@ Patch0:		%{name}-dynamic-exts.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-python.patch
 Patch3:		%{name}-c++.patch
+Patch4:		%{name}-types.patch
 URL:		http://www.opaque.net/ming/
 BuildRequires:	python-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
@@ -35,7 +36,7 @@ popularnymi jêzykami skryptowymi, takimi jak PHP, Python i Ruby.
 Summary:	Ming development files
 Summary(pl):	Pliki dla programistów Ming
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for ming library (C and C++).
@@ -47,7 +48,7 @@ Pliki nag³ówkowe dla biblioteki ming (do C i C++).
 Summary:	Ming perl module
 Summary(pl):	Modu³ perla Ming
 Group:		Development/Languages/Perl
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ming-perl
 
 %description -n perl-ming
@@ -60,7 +61,7 @@ Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
 Summary:	Ming Python module
 Summary(pl):	Modu³ biblioteki Ming dla jêzyka Python
 Group:		Development/Languages/Perl
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 %pyrequires_eq	python-libs
 
 %description -n python-ming
@@ -95,6 +96,7 @@ Narzêdzia Ming:
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__make} \
@@ -107,7 +109,8 @@ Narzêdzia Ming:
 cd perl_ext
 %{__perl} Makefile.PL \
 	INSTALLDIRS=vendor
-%{__make} OPTIMIZE="%{rpmcflags}"
+%{__make} \
+	OPTIMIZE="%{rpmcflags}"
 cd ..
 
 %{__make} -C py_ext \
