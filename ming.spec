@@ -55,13 +55,14 @@ Header files for ming library (C and C++).
 %description devel -l pl
 Pliki nag³ówkowe dla biblioteki ming (do C i C++).
 
-%package perl
+%package -n perl-ming
 Summary:	Ming perl module
 Summary(pl):	Modu³ perla Ming
 Group:		Development/Languages/Perl
 Group(de):	Entwicklung/Sprachen/Perl
 Group(pl):	Programowanie/Jêzyki/Perl
 Requires:	%{name} = %{version}
+Obsoletes:	ming-perl
 
 %description perl
 Ming perl module - perl wrapper for Ming library.
@@ -139,6 +140,8 @@ ln -sf ming-4.0.6.c php_ext/ming.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_bindir}
+
 %{__make} PREFIX=$RPM_BUILD_ROOT%{_prefix} install
 
 %{__make} -C perl_ext install DESTDIR=$RPM_BUILD_ROOT
@@ -148,7 +151,6 @@ install -d $RPM_BUILD_ROOT%{phpextdir}
 install php_ming.so $RPM_BUILD_ROOT%{phpextdir}
 )
 
-install -d $RPM_BUILD_ROOT%{_bindir}
 install util/{listswf,listaction,listfdb,makefdb,swftophp} $RPM_BUILD_ROOT%{_bindir}
 
 gzip -9nf CHANGES CREDITS README TODO \
@@ -175,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/ming.h
 %{_includedir}/mingpp.h
 
-%files perl
+%files -n perl-ming
 %defattr(644,root,root,755)
 %doc perl_ext/*.gz
 %{perl_sitearch}/SWF.pm
