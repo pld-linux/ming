@@ -64,10 +64,10 @@ Group(pl):	Programowanie/Jêzyki/Perl
 Requires:	%{name} = %{version}
 Obsoletes:	ming-perl
 
-%description perl
+%description -n perl-ming
 Ming perl module - perl wrapper for Ming library.
 
-%description perl -l pl
+%description -n perl-ming -l pl
 Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
 
 %package php
