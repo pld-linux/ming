@@ -8,7 +8,7 @@ License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
 Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
-# Source0-md5: 72b25da0af28d9cb025c2aaf3fd0185c
+# Source0-md5:	72b25da0af28d9cb025c2aaf3fd0185c
 Patch0:		%{name}-dynamic-exts.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-python.patch
