@@ -1,12 +1,10 @@
-
 %include	/usr/lib/rpm/macros.perl
 %include	/usr/lib/rpm/macros.python
-
 Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	5
+Release:	6
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
@@ -14,14 +12,13 @@ Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
 Patch0:		%{name}-dynamic-exts.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-python.patch
+Patch3:		%{name}-c++.patch
 URL:		http://www.opaque.net/ming/
 BuildRequires:	python-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		phpextdir	%(php-config --extension-dir)
 
 %description
 Ming is a C library for generating SWF ("Flash") format movies, plus a
@@ -95,6 +92,7 @@ Narzêdzia Ming:
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__make} CC="%{__cc}" CFLAGS="%{rpmcflags}"
