@@ -3,7 +3,7 @@ Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	2
+Release:	3
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
@@ -13,7 +13,6 @@ Patch1:		%{name}-soname.patch
 URL:		http://www.opaque.net/ming/
 BuildRequires:	zlib-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
-BuildRequires:	php-devel >= 4.0.6
 #BuildRequires:	python-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -54,18 +53,6 @@ Ming perl module - perl wrapper for Ming library.
 %description -n perl-ming -l pl
 Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
 
-%package php
-Summary:	Ming PHP module
-Summary(pl):	Modu³ PHP Ming
-Group:		Libraries
-Requires:	%{name} = %{version}
-
-%description php
-Ming PHP module.
-
-%description php -l pl
-Ming jako modu³ PHP.
-
 %package utils
 Summary:	Ming utilities
 Summary(pl):	Narzêdzia Ming
@@ -101,9 +88,6 @@ perl ./Makefile.PL
 %{__make} OPTIMIZE="%{rpmcflags}"
 )
 
-ln -sf ming-4.0.6.c php_ext/ming.c
-%{__make} CC="%{__cc} %{rpmcflags}" -C php_ext
-
 #%{__make} -C py_ext
 #%{__make} -C rb_ext
 
@@ -120,11 +104,6 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__make} PREFIX=$RPM_BUILD_ROOT%{_prefix} install
 
 %{__make} -C perl_ext install DESTDIR=$RPM_BUILD_ROOT
-
-(cd php_ext
-install -d $RPM_BUILD_ROOT%{phpextdir}
-install php_ming.so $RPM_BUILD_ROOT%{phpextdir}
-)
 
 install util/{listswf,listaction,listfdb,makefdb,swftophp} $RPM_BUILD_ROOT%{_bindir}
 
@@ -161,11 +140,6 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_sitearch}/auto/SWF/SWF.bs
 %attr(755,root,root) %{perl_sitearch}/auto/SWF/SWF.so
 %{_mandir}/man3/SWF*
-
-%files php
-%defattr(644,root,root,755)
-%doc php_ext/*.gz
-%attr(755,root,root) %{phpextdir}/*.so
 
 %files utils
 %defattr(644,root,root,755)
