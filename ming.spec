@@ -1,19 +1,24 @@
+
 %include	/usr/lib/rpm/macros.perl
+%include	/usr/lib/rpm/macros.python
+
 Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	3
+Release:	4
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
 Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
 Patch0:		%{name}-dynamic-exts.patch
 Patch1:		%{name}-soname.patch
+Patch2:		%{name}-python.patch
 URL:		http://www.opaque.net/ming/
+BuildRequires:	python-devel
 BuildRequires:	zlib-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
-#BuildRequires:	python-devel
+BuildRequires:	rpm-pythonprov
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		phpextdir	%(php-config --extension-dir)
@@ -53,6 +58,18 @@ Ming perl module - perl wrapper for Ming library.
 %description -n perl-ming -l pl
 Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
 
+%package -n python-ming
+Summary:	Ming Python module
+Summary(pl):	Modu³ biblioteki Ming dla jêzyka Python
+Group:		Development/Languages/Perl
+Requires:	%{name} = %{version}
+
+%description -n python-ming
+Ming Python module.
+
+%description -n python-ming -l pl
+Modu³ biblioteki Ming dla jêzyka Python.
+
 %package utils
 Summary:	Ming utilities
 Summary(pl):	Narzêdzia Ming
@@ -77,6 +94,7 @@ Narzêdzia Ming:
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} CC="%{__cc}" CFLAGS="%{rpmcflags}"
@@ -88,7 +106,7 @@ perl ./Makefile.PL
 %{__make} OPTIMIZE="%{rpmcflags}"
 )
 
-#%{__make} -C py_ext
+%{__make} -C py_ext PYINCDIR=%{py_incdir}
 #%{__make} -C rb_ext
 
 (cd util
@@ -99,20 +117,19 @@ perl ./Makefile.PL
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{py_sitedir}}
 
 %{__make} PREFIX=$RPM_BUILD_ROOT%{_prefix} install
 
 %{__make} -C perl_ext install DESTDIR=$RPM_BUILD_ROOT
 
-install util/{listswf,listaction,listfdb,makefdb,swftophp} $RPM_BUILD_ROOT%{_bindir}
+%{__make} -C py_ext install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	PYLIBDIR=$RPM_BUILD_ROOT%{py_libdir}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 
-gzip -9nf CHANGES CREDITS README TODO \
-	perl_ext/{README,TODO} \
-	php_ext/README \
-	py_ext/{README,TODO} \
-	rb_ext/README \
-	util/{README,TODO}
+install util/{listswf,listaction,listfdb,makefdb,swftophp} $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -122,7 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc CHANGES CREDITS README TODO rb_ext/README
 %attr(755,root,root) %{_libdir}/libming.so.*.*
 
 %files devel
@@ -133,7 +150,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n perl-ming
 %defattr(644,root,root,755)
-%doc perl_ext/*.gz
+%doc perl_ext/{README,TODO}
 %{perl_sitearch}/SWF.pm
 %{perl_sitearch}/SWF
 %dir %{perl_sitearch}/auto/SWF
@@ -141,7 +158,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{perl_sitearch}/auto/SWF/SWF.so
 %{_mandir}/man3/SWF*
 
+%files -n python-ming
+%defattr(644,root,root,755)
+%doc py_ext/{README,TODO}
+%attr(755,root,root) %{py_sitedir}/*.so
+%{py_sitedir}/*.py[co]
+
 %files utils
 %defattr(644,root,root,755)
-%doc util/*.gz
+%doc util/{README,TODO}
 %attr(755,root,root) %{_bindir}/*
