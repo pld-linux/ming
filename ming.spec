@@ -96,7 +96,7 @@ Narzêdzia Ming:
 %patch1 -p1
 %patch2 -p1
 
-mv 0f rb_ext/README README.rb_ext
+mv -f rb_ext/README README.rb_ext
 
 %build
 %{__make} CC="%{__cc}" CFLAGS="%{rpmcflags}"
