@@ -4,7 +4,7 @@ Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	7
+Release:	8
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
@@ -99,6 +99,7 @@ Narzêdzia Ming:
 %build
 %{__make} \
 	CC="%{__cc}" \
+	LIBDIR=%{_libdir} \
 	CFLAGS="%{rpmcflags} -fPIC"
 
 #%%{__make} -C java_ext
@@ -127,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{py_sitedir}}
 
 %{__make} install \
+	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
 	PREFIX=$RPM_BUILD_ROOT%{_prefix}
 
 %{__make} -C perl_ext install \
