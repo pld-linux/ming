@@ -96,21 +96,21 @@ Narzêdzia Ming:
 %patch3 -p1
 
 %build
-%{__make} CC="%{__cc}" CFLAGS="%{rpmcflags}"
+%{__make} CC="%{__cc}" CFLAGS="%{rpmcflags} -fPIC"
 
 #%%{__make} -C java_ext
 
 cd perl_ext
 %{__perl} Makefile.PL \
 	INSTALLDIRS=vendor
-%{__make} OPTIMIZE="%{rpmcflags}"
+%{__make} OPTIMIZE="%{rpmcflags} -fPIC"
 cd ..
 
 %{__make} -C py_ext PYINCDIR=%{py_incdir}
 #%%{__make} -C rb_ext
 
 cd util
-%{__make} CC="%{__cc} %{rpmcflags}" \
+%{__make} CC="%{__cc} %{rpmcflags} -fPIC" \
 	listswf listaction swftophp makefdb
 %{__cc} %{rpmcflags} -o listfdb listfdb.c
 
