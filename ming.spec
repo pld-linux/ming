@@ -181,7 +181,8 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_sitearch}/SWF.pm
 %{perl_sitearch}/SWF
 %dir %{perl_sitearch}/auto/SWF
-%{perl_sitearch}/auto/SWF/SWF.*
+%{perl_sitearch}/auto/SWF/SWF.bs
+%attr(755,root,root) %{perl_sitearch}/auto/SWF/SWF.so
 %{_mandir}/man3/SWF*
 
 %files php
