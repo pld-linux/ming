@@ -3,8 +3,11 @@ Summary:	Ming - an SWF output library
 Version:	0.0.9c
 Release:	1
 License:	LGPL
-Group:		System Environment/Libraries
-######		Unknown group!
+Group:		Libraries
+Group(de):	Libraries
+Group(es):	Bibliotecas
+Group(fr):	Librairies
+Group(pl):	Biblioteki
 URL:		http://www.opaque.net/ming/
 Vendor:		Opaque Industries
 Source0:	http://www.opaque.net/ming/%{name}-0_0_9c.tgz
