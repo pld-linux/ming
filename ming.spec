@@ -97,7 +97,7 @@ Narzêdzia Ming:
 %build
 %{__make} CC="%{__cc}" CFLAGS="%{rpmcflags}"
 
-#%{__make} -C java_ext
+#%%{__make} -C java_ext
 
 cd perl_ext
 perl ./Makefile.PL
@@ -105,7 +105,7 @@ perl ./Makefile.PL
 cd ..
 
 %{__make} -C py_ext PYINCDIR=%{py_incdir}
-#%{__make} -C rb_ext
+#%%{__make} -C rb_ext
 
 cd util
 %{__make} CC="%{__cc} %{rpmcflags}" \
