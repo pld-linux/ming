@@ -7,13 +7,6 @@ Release:	2
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	âÉÂÌÉÏÔÅËÉ
-Group(uk):	â¦ÂÌ¦ÏÔÅËÉ
 Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
 Patch0:		%{name}-dynamic-exts.patch
 Patch1:		%{name}-soname.patch
@@ -40,13 +33,6 @@ popularnymi jêzykami skryptowymi, takimi jak PHP, Python i Ruby.
 Summary:	Ming development files
 Summary(pl):	Pliki dla programistów Ming
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
-Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 
 %description devel
@@ -59,8 +45,6 @@ Pliki nag³ówkowe dla biblioteki ming (do C i C++).
 Summary:	Ming perl module
 Summary(pl):	Modu³ perla Ming
 Group:		Development/Languages/Perl
-Group(de):	Entwicklung/Sprachen/Perl
-Group(pl):	Programowanie/Jêzyki/Perl
 Requires:	%{name} = %{version}
 Obsoletes:	ming-perl
 
@@ -74,13 +58,6 @@ Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
 Summary:	Ming PHP module
 Summary(pl):	Modu³ PHP Ming
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	âÉÂÌÉÏÔÅËÉ
-Group(uk):	â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 
 %description php
@@ -93,8 +70,6 @@ Ming jako modu³ PHP.
 Summary:	Ming utilities
 Summary(pl):	Narzêdzia Ming
 Group:		Applications/File
-Group(de):	Applikationen/Datei
-Group(pl):	Aplikacje/Pliki
 
 %description utils
 Ming utilities:
