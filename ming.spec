@@ -17,7 +17,6 @@ Patch4:		%{name}-types.patch
 URL:		http://www.opaque.net/ming/
 BuildRequires:	python-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
-BuildRequires:	rpm-pythonprov
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
