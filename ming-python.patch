@@ -1,6 +1,5 @@
-diff -Nur ming-0.2a.orig/py_ext/Makefile ming-0.2a/py_ext/Makefile
---- ming-0.2a.orig/py_ext/Makefile	Fri Aug 17 19:05:55 2001
-+++ ming-0.2a/py_ext/Makefile	Sat Oct 12 18:38:05 2002
+--- ming-0.2a/py_ext/Makefile.orig	Fri Aug 17 19:05:55 2001
++++ ming-0.2a/py_ext/Makefile	Wed Jul 23 15:00:25 2003
 @@ -4,10 +4,10 @@
  #PYINCDIR = /usr/include/python1.5
  #PYLIBDIR = /usr/lib/python1.5
@@ -10,7 +9,16 @@ diff -Nur ming-0.2a.orig/py_ext/Makefile ming-0.2a/py_ext/Makefile
  
  mingcmodule.so: ming_wrap.o
 -	gcc -g -Wall -shared -o mingcmodule.so ming_wrap.o -lming
-+	gcc -g -Wall -shared -o mingcmodule.so ming_wrap.o -L.. -lming
++	$(CC) $(LDFLAGS) -shared -o mingcmodule.so ming_wrap.o -L.. -lming
  
  mingc.pyd: ming_wrap.o
  	dllwrap --dllname mingc.pyd --driver-name gcc --def mingc.def \
+@@ -15,7 +15,7 @@
+ 	  --target=i386-mingw32 -Llib/ -lpython15
+ 
+ ming_wrap.o: ming_wrap.c
+-	gcc -g -Wall -I .. -I ${PYINCDIR} -fpic -c ming_wrap.c
++	$(CC) $(CFLAGS) -Wall -I .. -I ${PYINCDIR} -fpic -c ming_wrap.c
+ 
+ ../libming.a:
+ 	cd ..; make static
