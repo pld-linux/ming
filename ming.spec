@@ -61,6 +61,7 @@ Summary:	Ming Python module
 Summary(pl):	Modu³ biblioteki Ming dla jêzyka Python
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}
+%pyrequires_eq	python-libs
 
 %description -n python-ming
 Ming Python module.
