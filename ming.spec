@@ -4,7 +4,7 @@ Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	6
+Release:	7
 License:	LGPL
 Vendor:		Opaque Industries
 Group:		Libraries
@@ -100,7 +100,8 @@ Narzêdzia Ming:
 #%%{__make} -C java_ext
 
 cd perl_ext
-perl ./Makefile.PL
+%{__perl} Makefile.PL \
+	INSTALLDIRS=vendor
 %{__make} OPTIMIZE="%{rpmcflags}"
 cd ..
 
@@ -116,9 +117,11 @@ cd util
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{py_sitedir}}
 
-%{__make} PREFIX=$RPM_BUILD_ROOT%{_prefix} install
+%{__make} install \
+	PREFIX=$RPM_BUILD_ROOT%{_prefix}
 
-%{__make} -C perl_ext install DESTDIR=$RPM_BUILD_ROOT
+%{__make} -C perl_ext install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %{__make} -C py_ext install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -148,11 +151,11 @@ rm -rf $RPM_BUILD_ROOT
 %files -n perl-ming
 %defattr(644,root,root,755)
 %doc perl_ext/{README,TODO}
-%{perl_sitearch}/SWF.pm
-%{perl_sitearch}/SWF
-%dir %{perl_sitearch}/auto/SWF
-%{perl_sitearch}/auto/SWF/SWF.bs
-%attr(755,root,root) %{perl_sitearch}/auto/SWF/SWF.so
+%{perl_vendorarch}/SWF.pm
+%{perl_vendorarch}/SWF
+%dir %{perl_vendorarch}/auto/SWF
+%{perl_vendorarch}/auto/SWF/SWF.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/SWF/SWF.so
 %{_mandir}/man3/SWF*
 
 %files -n python-ming
