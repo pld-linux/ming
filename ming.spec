@@ -16,9 +16,9 @@ Patch1:		%{name}-soname.patch
 Patch2:		%{name}-python.patch
 URL:		http://www.opaque.net/ming/
 BuildRequires:	python-devel
-BuildRequires:	zlib-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		phpextdir	%(php-config --extension-dir)
@@ -96,26 +96,23 @@ Narzêdzia Ming:
 %patch1 -p1
 %patch2 -p1
 
-mv -f rb_ext/README README.rb_ext
-
 %build
 %{__make} CC="%{__cc}" CFLAGS="%{rpmcflags}"
 
 #%{__make} -C java_ext
 
-(cd perl_ext
+cd perl_ext
 perl ./Makefile.PL
 %{__make} OPTIMIZE="%{rpmcflags}"
-)
+cd ..
 
 %{__make} -C py_ext PYINCDIR=%{py_incdir}
 #%{__make} -C rb_ext
 
-(cd util
+cd util
 %{__make} CC="%{__cc} %{rpmcflags}" \
 	listswf listaction swftophp makefdb
 %{__cc} %{rpmcflags} -o listfdb listfdb.c
-)
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -141,7 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES CREDITS README TODO README.rb_ext
+%doc CHANGES CREDITS README TODO
 %attr(755,root,root) %{_libdir}/libming.so.*.*
 
 %files devel
