@@ -1,5 +1,4 @@
 %include	/usr/lib/rpm/macros.perl
-%include	/usr/lib/rpm/macros.python
 Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
