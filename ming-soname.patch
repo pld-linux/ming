@@ -5,7 +5,7 @@
  	cd blocks && make
  	cd actioncompiler && make
 -	${CC} ${OFILES} ${COMPILEROFILES} blocks/*.o -shared -fpic \
-+	${CC} ${OFILES} ${COMPILEROFILES} blocks/*.o -shared -fpic -Wl,-soname=libming.so.0 \
++	${CC} ${OFILES} ${COMPILEROFILES} blocks/*.o -shared -lm -fpic -Wl,-soname=libming.so.0 \
  	  -o libming.so
  	cp libming.so ..
  
