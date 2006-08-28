@@ -5,7 +5,6 @@ Name:		ming
 Version:	0.2a
 Release:	11
 License:	LGPL
-Vendor:		Opaque Industries
 Group:		Libraries
 Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
 # Source0-md5:	72b25da0af28d9cb025c2aaf3fd0185c
@@ -142,6 +141,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{py_sitedir}}
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 
 install util/{listswf,listaction,listfdb,makefdb,swftophp} $RPM_BUILD_ROOT%{_bindir}
+rm -f $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
+rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
+rm -f $RPM_BUILD_ROOT%{py_sitedir}/ming.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
