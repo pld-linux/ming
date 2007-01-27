@@ -3,7 +3,7 @@ Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.2a
-Release:	11
+Release:	12
 License:	LGPL
 Group:		Libraries
 Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
