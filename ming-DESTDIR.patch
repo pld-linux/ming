@@ -1,0 +1,75 @@
+--- ming-0.3.0/Makefile-real~	2006-01-30 16:53:39.000000000 +0200
++++ ming-0.3.0/Makefile-real	2007-02-09 18:49:26.761167908 +0200
+@@ -7,36 +7,36 @@
+ install: install-common install-dynamic install-utils install-static install-man
+ 
+ install-common:
+-	install -d $(libdir)
+-	install -d $(includedir)
+-	install -c -m 0644 src/ming.h $(includedir)
+-	install -c -m 0644 src/ming_config.h $(includedir)
+-	install -c -m 0644 mingpp.h $(includedir)
++	install -d $(DESTDIR)$(libdir)
++	install -d $(DESTDIR)$(includedir)
++	install -c -m 0644 src/ming.h $(DESTDIR)$(includedir)
++	install -c -m 0644 src/ming_config.h $(DESTDIR)$(includedir)
++	install -c -m 0644 mingpp.h $(DESTDIR)$(includedir)
+ 
+ install-utils:
+-	(cd util && make install)
++	$(MAKE) -C util install
+ 
+ install-man:
+-	(cd man && make install)
++	$(MAKE) -C man install
+ 
+ install-dynamic: dynamic
+-	install -c -m 0644 $(SHAREDLIB) $(libdir)/$(SHAREDLIB)
+-	(cd $(libdir) && ln -fs $(SHAREDLIB) libming$(SHORT_SHLIBEXT) && ln -fs libming$(SHORT_SHLIBEXT) libming$(NOVAR_SHLIBEXT))
++	install -c -m 0644 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB)
++	(cd $(DESTDIR)$(libdir) && ln -fs $(SHAREDLIB) libming$(SHORT_SHLIBEXT) && ln -fs libming$(SHORT_SHLIBEXT) libming$(NOVAR_SHLIBEXT))
+ 
+ install-static: static
+-	install -c -m 0644 libming.a $(libdir)/
++	install -c -m 0644 libming.a $(DESTDIR)$(libdir)/
+ 
+ utils:
+-	(cd util && make)
++	$(MAKE) -C util
+ 
+ dynamic:
+-	(cd src && $(MAKE) $@ CFLAGS="$(CFLAGS) $(SHCFLAGS)")
++	$(MAKE) -C src $@ CFLAGS="$(CFLAGS) $(SHCFLAGS)"
+ 
+ static:
+-	(cd src && $(MAKE) $@)
++	$(MAKE) -C src $@
+ 
+ clean:
+-	for i in $(DIRS); do (cd $$i && $(MAKE) clean); done
++	for i in $(DIRS); do $(MAKE) -C $$i clean; done
+ 	if [ -f perl_ext/Makefile ] ; then cd perl_ext; $(MAKE) clean; fi
+ 	rm -f test.o test test.exe *.core *~
+ 	rm -f libming.a libming*$(NOVAR_SHLIBEXT)*
+--- ming-0.3.0/util/Makefile~	2006-01-30 16:52:48.000000000 +0200
++++ ming-0.3.0/util/Makefile	2007-02-09 18:50:48.593023046 +0200
+@@ -79,6 +79,6 @@
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< 
+ 
+ install: $(BINARIES)
+-	install -d $(bindir)
+-	install -m 0755 $(BINARIES) $(bindir)
+-	install -m 0755 ming-config $(bindir)
++	install -d $(DESTDIR)$(bindir)
++	install -m 0755 $(BINARIES) $(DESTDIR)$(bindir)
++	install -m 0755 ming-config $(DESTDIR)$(bindir)
+--- ming-0.3.0/man/Makefile~	2005-03-28 01:06:17.000000000 +0300
++++ ming-0.3.0/man/Makefile	2007-02-09 18:52:22.205144951 +0200
+@@ -3,5 +3,5 @@
+ MAN1=makeswf.1
+ 
+ install: $(BINARIES)
+-	install -d $(mandir)/man1
+-	install -m 0644 $(MAN1) $(mandir)/man1
++	install -d $(DESTDIR)$(mandir)/man1
++	install -m 0644 $(MAN1) $(DESTDIR)$(mandir)/man1
