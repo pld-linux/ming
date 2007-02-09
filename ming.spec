@@ -2,18 +2,14 @@
 Summary:	Ming - an SWF output library
 Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
-Version:	0.2a
-Release:	13
+Version:	0.3.0
+Release:	0.1
 License:	LGPL
 Group:		Libraries
-Source0:	http://www.opaque.net/ming/%{name}-%{version}.tgz
-# Source0-md5:	72b25da0af28d9cb025c2aaf3fd0185c
-Patch0:		%{name}-dynamic-exts.patch
-Patch1:		%{name}-soname.patch
-Patch2:		%{name}-python.patch
-Patch3:		%{name}-c++.patch
-Patch4:		%{name}-types.patch
-URL:		http://www.opaque.net/ming/
+Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.gz
+# Source0-md5:	56b29eeb4fdd0b98c9ee62e25d14841d
+Patch0:		%{name}-DESTDIR.patch
+URL:		http://ming.sourceforge.net/
 BuildRequires:	python-devel
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	zlib-devel
@@ -41,31 +37,13 @@ Header files for ming library (C and C++).
 %description devel -l pl
 Pliki nag³ówkowe dla biblioteki ming (do C i C++).
 
-%package -n perl-ming
-Summary:	Ming perl module
-Summary(pl):	Modu³ perla Ming
-Group:		Development/Languages/Perl
-Requires:	%{name} = %{version}-%{release}
-Obsoletes:	ming-perl
+%package static
+Summary:	Ming static libraries
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
 
-%description -n perl-ming
-Ming perl module - perl wrapper for Ming library.
-
-%description -n perl-ming -l pl
-Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
-
-%package -n python-ming
-Summary:	Ming Python module
-Summary(pl):	Modu³ biblioteki Ming dla jêzyka Python
-Group:		Development/Languages/Perl
-Requires:	%{name} = %{version}-%{release}
-%pyrequires_eq	python-libs
-
-%description -n python-ming
-Ming Python module.
-
-%description -n python-ming -l pl
-Modu³ biblioteki Ming dla jêzyka Python.
+%description static
+Static ming library
 
 %package utils
 Summary:	Ming utilities
@@ -90,60 +68,16 @@ Narzêdzia Ming:
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
-%{__make} \
-	CC="%{__cc}" \
-	LIBDIR=%{_libdir} \
-	CFLAGS="%{rpmcflags} -fPIC"
-
-#%%{__make} -C java_ext
-
-cd perl_ext
-%{__perl} Makefile.PL \
-	INSTALLDIRS=vendor
-%{__make} \
-	OPTIMIZE="%{rpmcflags}"
-cd ..
-
-%{__make} -C py_ext \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
-	PYINCDIR=%{py_incdir}
-
-#%%{__make} -C rb_ext
-
-cd util
-%{__make} listswf listaction swftophp makefdb \
-	CC="%{__cc} %{rpmcflags}"
-
-%{__cc} %{rpmcflags} -o listfdb listfdb.c
+%configure
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{py_sitedir}}
 
 %{__make} install \
-	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
-	PREFIX=$RPM_BUILD_ROOT%{_prefix}
-
-%{__make} -C perl_ext install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-%{__make} -C py_ext install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	PYLIBDIR=$RPM_BUILD_ROOT%{py_libdir}
-%py_comp $RPM_BUILD_ROOT%{py_sitedir}
-%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
-
-install util/{listswf,listaction,listfdb,makefdb,swftophp} $RPM_BUILD_ROOT%{_bindir}
-rm -f $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/ming.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -153,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES CREDITS README TODO
+%doc CREDITS README TODO
 %attr(755,root,root) %{_libdir}/libming.so.*
 
 %files devel
@@ -161,24 +95,32 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libming.so
 %{_includedir}/ming.h
 %{_includedir}/mingpp.h
+%{_includedir}/ming_config.h
 
-%files -n perl-ming
+%files static
 %defattr(644,root,root,755)
-%doc perl_ext/{README,TODO}
-%{perl_vendorarch}/SWF.pm
-%{perl_vendorarch}/SWF
-%dir %{perl_vendorarch}/auto/SWF
-%{perl_vendorarch}/auto/SWF/SWF.bs
-%attr(755,root,root) %{perl_vendorarch}/auto/SWF/SWF.so
-%{_mandir}/man3/SWF*
-
-%files -n python-ming
-%defattr(644,root,root,755)
-%doc py_ext/{README,TODO}
-%attr(755,root,root) %{py_sitedir}/*.so
-%{py_sitedir}/*.py[co]
+%{_libdir}/libming.a
 
 %files utils
 %defattr(644,root,root,755)
 %doc util/{README,TODO}
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/dbl2png
+%attr(755,root,root) %{_bindir}/gif2dbl
+%attr(755,root,root) %{_bindir}/gif2mask
+%attr(755,root,root) %{_bindir}/listaction
+%attr(755,root,root) %{_bindir}/listaction_d
+%attr(755,root,root) %{_bindir}/listfdb
+%attr(755,root,root) %{_bindir}/listjpeg
+%attr(755,root,root) %{_bindir}/listmp3
+%attr(755,root,root) %{_bindir}/listswf
+%attr(755,root,root) %{_bindir}/listswf_d
+%attr(755,root,root) %{_bindir}/makefdb
+%attr(755,root,root) %{_bindir}/makeswf
+%attr(755,root,root) %{_bindir}/ming-config
+%attr(755,root,root) %{_bindir}/png2dbl
+%attr(755,root,root) %{_bindir}/png2swf
+%attr(755,root,root) %{_bindir}/raw2adpcm
+%attr(755,root,root) %{_bindir}/swftoperl
+%attr(755,root,root) %{_bindir}/swftophp
+%attr(755,root,root) %{_bindir}/swftopython
+%{_mandir}/man1/makeswf.1*
