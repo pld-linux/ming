@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
-Summary(pl):	Ming - biblioteka do produkcji plików SWF
+Summary(pl.UTF-8):   Ming - biblioteka do produkcji plikÃ³w SWF
 Name:		ming
 Version:	0.3.0
 Release:	1
@@ -22,22 +22,22 @@ Ming is a C library for generating SWF ("Flash") format movies, plus a
 set of wrappers for using the library from c++ and popular scripting
 languages like PHP, Python, and Ruby.
 
-%description -l pl
-Ming jest bibliotek± w C do generowania animacji w formacie SWF
-("Flash") wraz z zestawem wrapperów do u¿ywania jej z C++ i
-popularnymi jêzykami skryptowymi, takimi jak PHP, Python i Ruby.
+%description -l pl.UTF-8
+Ming jest bibliotekÄ… w C do generowania animacji w formacie SWF
+("Flash") wraz z zestawem wrapperÃ³w do uÅ¼ywania jej z C++ i
+popularnymi jÄ™zykami skryptowymi, takimi jak PHP, Python i Ruby.
 
 %package devel
 Summary:	Ming development files
-Summary(pl):	Pliki dla programistów Ming
+Summary(pl.UTF-8):   Pliki dla programistÃ³w Ming
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for ming library (C and C++).
 
-%description devel -l pl
-Pliki nag³ówkowe dla biblioteki ming (do C i C++).
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe dla biblioteki ming (do C i C++).
 
 %package static
 Summary:	Ming static libraries
@@ -49,7 +49,7 @@ Static ming library
 
 %package utils
 Summary:	Ming utilities
-Summary(pl):	Narzêdzia Ming
+Summary(pl.UTF-8):   NarzÄ™dzia Ming
 Group:		Applications/File
 
 %description utils
@@ -60,12 +60,12 @@ Ming utilities:
   file
 - swftophp - attempt to make a php/ming script out of an swf file
 
-%description utils -l pl
-Narzêdzia Ming:
-- listswf - disasembler plików swf
-- listfdb - pokazuje zawarto¶æ plików fontów fdb
-- makefdb - wyci±ga pliki definicji fontów fdb z pliku generatora
-- swftophp - próbuje zrobiæ skrypt php/ming z pliku swf
+%description utils -l pl.UTF-8
+NarzÄ™dzia Ming:
+- listswf - disasembler plikÃ³w swf
+- listfdb - pokazuje zawartoÅ›Ä‡ plikÃ³w fontÃ³w fdb
+- makefdb - wyciÄ…ga pliki definicji fontÃ³w fdb z pliku generatora
+- swftophp - prÃ³buje zrobiÄ‡ skrypt php/ming z pliku swf
 
 %prep
 %setup -q
