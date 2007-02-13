@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
-Summary(pl.UTF-8):   Ming - biblioteka do produkcji plików SWF
+Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.3.0
 Release:	1
@@ -29,7 +29,7 @@ popularnymi językami skryptowymi, takimi jak PHP, Python i Ruby.
 
 %package devel
 Summary:	Ming development files
-Summary(pl.UTF-8):   Pliki dla programistów Ming
+Summary(pl.UTF-8):	Pliki dla programistów Ming
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -49,7 +49,7 @@ Static ming library
 
 %package utils
 Summary:	Ming utilities
-Summary(pl.UTF-8):   Narzędzia Ming
+Summary(pl.UTF-8):	Narzędzia Ming
 Group:		Applications/File
 
 %description utils
