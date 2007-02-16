@@ -40,12 +40,16 @@ Header files for ming library (C and C++).
 Pliki nagłówkowe dla biblioteki ming (do C i C++).
 
 %package static
-Summary:	Ming static libraries
+Summary:	Ming static library
+Summary(pl.UTF-8):	Statyczna biblioteka Ming
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-Static ming library
+Static Ming library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka Ming.
 
 %package utils
 Summary:	Ming utilities
