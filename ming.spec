@@ -91,7 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CREDITS README TODO
-%attr(755,root,root) %{_libdir}/libming.so.*
+%attr(755,root,root) %{_libdir}/libming.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libming.so.0
 
 %files devel
 %defattr(644,root,root,755)
