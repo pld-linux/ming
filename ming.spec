@@ -9,9 +9,9 @@ Group:		Libraries
 Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.gz
 # Source0-md5:	56b29eeb4fdd0b98c9ee62e25d14841d
 Source1:	http://dl.sourceforge.net/ming/%{name}-perl-%{version}.tar.gz
-# Source1-md5:	56b29eeb4fdd0b98c9ee62e25d14841d
+# Source1-md5:	506acca9ca42066a97fc0b6abad6d57a
 Source2:	http://dl.sourceforge.net/ming/%{name}-py-%{version}.tar.gz
-# Source2-md5:	56b29eeb4fdd0b98c9ee62e25d14841d
+# Source2-md5:	96d3f42f13d020d907287a640b39ec46
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-build.patch
 Patch2:		%{name}-perl-shared.patch
