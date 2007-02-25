@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
-Summary(pl.UTF-8):	Ming - biblioteka do produkcji plikÃ³w SWF
+Summary(pl):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.3.0
 Release:	1
@@ -17,7 +17,7 @@ Patch1:		%{name}-build.patch
 Patch2:		%{name}-perl-shared.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	giflib-devel
-BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
 BuildRequires:	zlib-devel
@@ -28,38 +28,38 @@ Ming is a C library for generating SWF ("Flash") format movies, plus a
 set of wrappers for using the library from c++ and popular scripting
 languages like PHP, Python, and Ruby.
 
-%description -l pl.UTF-8
-Ming jest bibliotekÄ… w C do generowania animacji w formacie SWF
-("Flash") wraz z zestawem wrapperÃ³w do uÅ¼ywania jej z C++ i
-popularnymi jÄ™zykami skryptowymi, takimi jak PHP, Python i Ruby.
+%description -l pl
+Ming jest bibliotek± w C do generowania animacji w formacie SWF
+("Flash") wraz z zestawem wrapperów do u¿ywania jej z C++ i
+popularnymi jêzykami skryptowymi, takimi jak PHP, Python i Ruby.
 
 %package devel
 Summary:	Ming development files
-Summary(pl.UTF-8):	Pliki dla programistÃ³w Ming
+Summary(pl):	Pliki dla programistów Ming
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for ming library (C and C++).
 
-%description devel -l pl.UTF-8
-Pliki nagÅ‚Ã³wkowe dla biblioteki ming (do C i C++).
+%description devel -l pl
+Pliki nag³ówkowe dla biblioteki ming (do C i C++).
 
 %package static
 Summary:	Ming static library
-Summary(pl.UTF-8):	Statyczna biblioteka Ming
+Summary(pl):	Statyczna biblioteka Ming
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static Ming library.
 
-%description static -l pl.UTF-8
+%description static -l pl
 Statyczna biblioteka Ming.
 
 %package utils
 Summary:	Ming utilities
-Summary(pl.UTF-8):	NarzÄ™dzia Ming
+Summary(pl):	Narzêdzia Ming
 Group:		Applications/File
 
 %description utils
@@ -70,16 +70,16 @@ Ming utilities:
   file
 - swftophp - attempt to make a php/ming script out of an swf file
 
-%description utils -l pl.UTF-8
-NarzÄ™dzia Ming:
-- listswf - disasembler plikÃ³w swf
-- listfdb - pokazuje zawartoÅ›Ä‡ plikÃ³w fontÃ³w fdb
-- makefdb - wyciÄ…ga pliki definicji fontÃ³w fdb z pliku generatora
-- swftophp - prÃ³buje zrobiÄ‡ skrypt php/ming z pliku swf
+%description utils -l pl
+Narzêdzia Ming:
+- listswf - disasembler plików swf
+- listfdb - pokazuje zawarto¶æ plików fontów fdb
+- makefdb - wyci±ga pliki definicji fontów fdb z pliku generatora
+- swftophp - próbuje zrobiæ skrypt php/ming z pliku swf
 
 %package -n perl-ming
 Summary:	Ming perl module
-Summary(pl.UTF-8):	ModuÅ‚ perla Ming
+Summary(pl):	Modu³ perla Ming
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ming-perl
@@ -87,12 +87,12 @@ Obsoletes:	ming-perl
 %description -n perl-ming
 Ming perl module - perl wrapper for Ming library.
 
-%description -n perl-ming -l pl.UTF-8
-ModuÅ‚ perla Ming - perlowy wrapper do biblioteki Ming.
+%description -n perl-ming -l pl
+Modu³ perla Ming - perlowy wrapper do biblioteki Ming.
 
 %package -n python-ming
 Summary:	Ming Python module
-Summary(pl.UTF-8):	ModuÅ‚ biblioteki Ming dla jÄ™zyka Python
+Summary(pl):	Modu³ biblioteki Ming dla jêzyka Python
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
 %pyrequires_eq	python-libs
@@ -100,8 +100,8 @@ Requires:	%{name} = %{version}-%{release}
 %description -n python-ming
 Ming Python module.
 
-%description -n python-ming -l pl.UTF-8
-ModuÅ‚ biblioteki Ming dla jÄ™zyka Python.
+%description -n python-ming -l pl
+Modu³ biblioteki Ming dla jêzyka Python.
 
 %prep
 %setup -q -b1 -b2
@@ -203,4 +203,3 @@ rm -rf $RPM_BUILD_ROOT
 %doc py_ext/{README,TODO}
 %attr(755,root,root) %{py_sitedir}/_mingc.so
 %{py_sitedir}/ming*.py[co]
-%{py_sitedir}/mingc-*.egg-info
