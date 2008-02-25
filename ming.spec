@@ -3,7 +3,7 @@ Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.3.0
-Release:	3
+Release:	4
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.gz
@@ -109,6 +109,8 @@ Moduł biblioteki Ming dla języka Python.
 %patch1 -p1
 %patch2 -p1
 
+ln -s src/ming.h
+
 %build
 %configure
 %{__make} -j1
@@ -117,6 +119,7 @@ cd perl_ext
 %{__perl} Makefile.PL \
 	INSTALLDIRS=vendor
 %{__make} \
+	CC="%{__cc}" \
 	OPTIMIZE="%{rpmcflags}"
 cd ..
 
@@ -127,6 +130,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_libdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -139,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/SWF/.cvsignore
 rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
+rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/libming.a
+rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/ming.h
+rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/perl_swf.h
 rm -f $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
 
 %clean
