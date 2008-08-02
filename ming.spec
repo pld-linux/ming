@@ -38,6 +38,7 @@ Summary:	Ming development files
 Summary(pl.UTF-8):	Pliki dla programistów Ming
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	giflib-devel
 
 %description devel
 Header files for ming library (C and C++).
