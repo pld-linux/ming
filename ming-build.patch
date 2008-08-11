@@ -1,0 +1,86 @@
+Pliki ming-0.3.0.org/.Makefile.config.in.swp i ming-0.3.0/.Makefile.config.in.swp różnią się
+diff -urN ming-0.3.0.org/src/Makefile ming-0.3.0/src/Makefile
+--- ming-0.3.0.org/src/Makefile	2005-11-29 00:09:42.000000000 +0100
++++ ming-0.3.0/src/Makefile	2007-02-11 17:59:25.794623000 +0100
+@@ -32,7 +32,7 @@
+ $(SHAREDLIB): $(OFILES)
+ 	cd blocks && $(MAKE) CFLAGS="$(CFLAGS) -I.."
+ 	cd actioncompiler && $(MAKE) CFLAGS="$(CFLAGS) -I.."
+-	$(CC) $(OFILES) $(COMPILEROFILES) $(LDFLAGS) $(EXTRA_LIBS) blocks/*.o $(SHLIBLDFLAGS) -o $(SHAREDLIB)
++	$(CC) $(OFILES) $(COMPILEROFILES) blocks/*.o $(SHLIBLDFLAGS) -o $(SHAREDLIB) $(LDFLAGS) $(EXTRA_LIBS)
+ 	cp $(SHAREDLIB) ..
+ 	ln -fs $(SHAREDLIB) ../libming$(NOVAR_SHLIBEXT)
+ 	ln -fs $(SHAREDLIB) ../libming$(SHORT_SHLIBEXT)
+diff -urN ming-0.3.0.org/util/Makefile ming-0.3.0/util/Makefile
+--- ming-0.3.0.org/util/Makefile	2006-01-30 15:52:48.000000000 +0100
++++ ming-0.3.0/util/Makefile	2007-02-11 17:55:54.390623000 +0100
+@@ -28,25 +28,25 @@
+ 	cd ..; $(MAKE) static
+ 
+ listswf_d: $(UTILOBJ) outputtxt.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) $(UTILOBJ) outputtxt.c -o listswf_d
++	$(CC) $(CFLAGS) $(UTILOBJ) outputtxt.c -o listswf_d $(LDFLAGS)
+ 
+ listswf: $(UTILOBJ) outputtxt.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) -DNODECOMPILE $(UTILOBJ) outputtxt.c -o listswf
++	$(CC) $(CFLAGS) -DNODECOMPILE $(UTILOBJ) outputtxt.c -o listswf $(LDFLAGS)
+ 
+ listaction_d: $(UTILOBJ) outputtxt.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) -DACTIONONLY $(LDFLAGS) $(UTILOBJ) outputtxt.c -o listaction_d
++	$(CC) $(CFLAGS) -DACTIONONLY $(UTILOBJ) outputtxt.c -o listaction_d $(LDFLAGS)
+ 
+ listaction: $(UTILOBJ) outputtxt.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) -DACTIONONLY $(LDFLAGS) -DNODECOMPILE $(UTILOBJ) outputtxt.c -o listaction
++	$(CC) $(CFLAGS) -DACTIONONLY -DNODECOMPILE $(UTILOBJ) outputtxt.c -o listaction $(LDFLAGS)
+ 
+ swftoperl: $(UTILOBJ) outputscript.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) -DSWFPERL $(CFLAGS) $(LDFLAGS) outputscript.c $(UTILOBJ) -o swftoperl
++	$(CC) -DSWFPERL $(CFLAGS) outputscript.c $(UTILOBJ) -o swftoperl $(LDFLAGS)
+ 
+ swftophp: $(UTILOBJ) outputscript.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) -DSWFPHP $(CFLAGS) $(LDFLAGS) outputscript.c $(UTILOBJ) -o swftophp
++	$(CC) -DSWFPHP $(CFLAGS) outputscript.c $(UTILOBJ) -o swftophp $(LDFLAGS)
+ 
+ swftopython: $(UTILOBJ) outputscript.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) -DSWFPYTHON $(CFLAGS) $(LDFLAGS) outputscript.c $(UTILOBJ) -o swftopython
++	$(CC) -DSWFPYTHON $(CFLAGS) outputscript.c $(UTILOBJ) -o swftopython $(LDFLAGS)
+ 
+ parser.o: parser.c
+ 	$(CC) $(CFLAGS) -c parser.c
+@@ -55,28 +55,28 @@
+ 	$(CC) $(CFLAGS) -c decompile.c -o decompile.o
+ 
+ makefdb: blocktypes.o makefdb.c read.o ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) makefdb.c read.o -o makefdb
++	$(CC) $(CFLAGS) makefdb.c read.o -o makefdb $(LDFLAGS)
+ 
+ gif2mask: gif2mask.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) gif2mask.c -o gif2mask 
++	$(CC) $(CFLAGS) gif2mask.c -o gif2mask $(LDFLAGS)
+ 
+ png2dbl: png2dbl.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) png2dbl.c -o png2dbl
++	$(CC) $(CFLAGS) png2dbl.c -o png2dbl $(LDFLAGS)
+ 
+ dbl2png: dbl2png.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) dbl2png.c -o dbl2png
++	$(CC) $(CFLAGS) dbl2png.c -o dbl2png $(LDFLAGS)
+ 
+ gif2dbl: gif2dbl.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) gif2dbl.c -o gif2dbl 
++	$(CC) $(CFLAGS) gif2dbl.c -o gif2dbl $(LDFLAGS)
+ 
+ raw2adpcm: raw2adpcm.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) raw2adpcm.c -o raw2adpcm 
++	$(CC) $(CFLAGS) raw2adpcm.c -o raw2adpcm $(LDFLAGS)
+ 
+ png2swf: png2swf.c ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) png2swf.c -o png2swf 
++	$(CC) $(CFLAGS) png2swf.c -o png2swf $(LDFLAGS)
+ 
+ makeswf: makeswf.c makeswf.h ../libming$(NOVAR_SHLIBEXT)
+-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< 
++	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+ 
+ install: $(BINARIES)
+ 	install -d $(bindir)
