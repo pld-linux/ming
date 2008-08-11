@@ -17,7 +17,7 @@ Patch1:		%{name}-build.patch
 Patch2:		%{name}-perl-shared.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	giflib-devel
-BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
 BuildRequires:	zlib-devel
@@ -212,4 +212,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc py_ext/{README,TODO}
 %attr(755,root,root) %{py_sitedir}/_mingc.so
 %{py_sitedir}/ming*.py[co]
+%if "%{py_ver}" > "2.4"
 %{py_sitedir}/mingc-*.egg-info
+%endif
