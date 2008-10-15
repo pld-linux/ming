@@ -1,0 +1,43 @@
+--- ming-0.4.2/util/Makefile.am.orig	2008-09-17 09:07:05.000000000 +0200
++++ ming-0.4.2/util/Makefile.am	2008-10-15 01:08:41.694630631 +0200
+@@ -115,19 +115,19 @@
+ makefdb_CFLAGS = -DMAKE_FDB
+ 
+ gif2mask_SOURCES = gif2mask.c
+-gif2mask_LDADD = $(top_builddir)/src/libming.la
++gif2mask_LDADD = $(top_builddir)/src/libming.la $(GIFLIB) $(ZLIB) $(MATHLIB)
+ 
+ png2dbl_SOURCES = png2dbl.c
+-png2dbl_LDADD = $(top_builddir)/src/libming.la
++png2dbl_LDADD = $(top_builddir)/src/libming.la $(PNGLIB) $(ZLIB) $(MATHLIB)
+ 
+ img2swf_SOURCES = img2swf.c
+ img2swf_LDADD = $(top_builddir)/src/libming.la
+ 
+ dbl2png_SOURCES = dbl2png.c
+-dbl2png_LDADD = $(top_builddir)/src/libming.la
++dbl2png_LDADD = $(top_builddir)/src/libming.la $(PNGLIB)
+ 
+ gif2dbl_SOURCES = gif2dbl.c
+-gif2dbl_LDADD = $(top_builddir)/src/libming.la
++gif2dbl_LDADD = $(top_builddir)/src/libming.la $(GIFLIB) $(ZLIB) $(MATHLIB)
+ 
+ makeswf_SOURCES = makeswf.c makeswf_utils.c
+ makeswf_LDADD = $(top_builddir)/src/libming.la
+--- ming-0.4.2/configure.in.orig	2008-09-18 02:44:39.000000000 +0200
++++ ming-0.4.2/configure.in	2008-10-15 01:09:55.882630631 +0200
+@@ -275,11 +275,11 @@
+ fi
+ 
+ dnl Check for the gif or ungif libraries
+-AC_CHECK_LIB(gif, PrintGifError, GIFLIB="-lgif", GIFLIB="")
++AC_CHECK_LIB(gif, PrintGifError, GIFLIB="-lgif", [
+ dnl MinGW check for libungif
+-AC_CHECK_LIB(ungif, DGifOpen, GIFLIB="-lungif")
++AC_CHECK_LIB(ungif, DGifOpen, GIFLIB="-lungif", [
+ dnl Solaris needs -lX11 on the linker line for ungif to work
+-AC_CHECK_LIB(ungif, PrintGifError, GIFLIB="-lungif",, "-lX11")
++AC_CHECK_LIB(ungif, PrintGifError, GIFLIB="-lungif",GIFLIB="", "-lX11")])])
+ AC_CHECK_HEADERS([gif_lib.h], GIFINC="true", GIFINC="")
+ 
+ dnl Check for the png library

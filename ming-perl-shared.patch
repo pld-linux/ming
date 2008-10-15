@@ -1,20 +1,39 @@
---- ming-0.3.0/perl_ext/Makefile.PL.orig	2006-02-01 07:45:17.000000000 +0100
-+++ ming-0.3.0/perl_ext/Makefile.PL	2007-02-16 23:14:25.929759689 +0100
-@@ -78,7 +78,7 @@
+--- ming-0.4.2/perl_ext/Makefile.PL.orig	2008-07-13 22:14:52.000000000 +0200
++++ ming-0.4.2/perl_ext/Makefile.PL	2008-10-14 22:51:17.854630631 +0200
+@@ -146,7 +146,7 @@
      clean   => {
          FILES   => "@do_clean",
      },
--    'MYEXTLIB'     => $MING_DIR . '/libming.a',
-+    'MYEXTLIB'     => $MING_DIR . '/libming.so',
+-    'MYEXTLIB'     => $MING_TOP_BUILDDIR . '/src/.libs/libming.a',
++    'MYEXTLIB'     => $MING_TOP_BUILDDIR . '/src/.libs/libming.so',
      'OBJECT'       => "$XS_OBJECTS",
-     #'LIBS'         => [ "-lz" ],
- 		'LIBS'         => [ $libs ],
-@@ -96,7 +96,7 @@
- }
+     'LDFROM'       => "$LD_OBJECTS",
+     'INC'          => "-I$MING_TOP_SRCDIR/src -I$BUILDDIR -I$MING_TOP_BUILDDIR/src -I$SRCDIR",
+@@ -164,7 +164,7 @@
  
- sub ming_is_compiled{
--	return undef unless (-e "$MING_DIR/libming.a");
-+	return undef unless (-e "$MING_DIR/libming.so");
- 	return 1;
- }
+ sub ming_is_compiled
+ {
+-	my $libming = $MING_TOP_BUILDDIR."/src/.libs/libming.a";
++	my $libming = $MING_TOP_BUILDDIR."/src/.libs/libming.so";
  
+ 	if ( -e $libming )
+ 	{
+--- ming-0.4.2/perl_ext/Makefile.am.orig	2008-07-13 15:46:56.000000000 +0200
++++ ming-0.4.2/perl_ext/Makefile.am	2008-10-15 17:58:44.486630631 +0200
+@@ -32,13 +32,13 @@
+ #abs_builddir=`cd $(TMP_DIR); pwd`
+ 
+ all: Makefile.perl
+-	$(MAKE) -f Makefile.perl
++	$(MAKE) -f Makefile.perl OPTIMIZE="$(CFLAGS)"
+ 
+ install: Makefile.perl
+-	$(MAKE) -f Makefile.perl install PREFIX=$(prefix)
++	$(MAKE) -f Makefile.perl pure_install PREFIX=$(prefix)
+ 
+ Makefile.perl: Makefile.PL
+-	srcdir=$(srcdir) builddir=$(abs_builddir) $(PERL) $< PREFIX=$(prefix) FIRST_MAKEFILE=Makefile.perl
++	srcdir=$(srcdir) builddir=$(abs_builddir) $(PERL) $< PREFIX=$(prefix) FIRST_MAKEFILE=Makefile.perl INSTALLDIRS=vendor
+ 
+ clean-local: Makefile.perl
+ 	$(MAKE) -f Makefile.perl realclean
