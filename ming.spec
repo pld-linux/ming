@@ -2,19 +2,14 @@
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
-Version:	0.3.0
-Release:	5
-License:	LGPL
+Version:	0.4.2
+Release:	1
+License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.gz
-# Source0-md5:	56b29eeb4fdd0b98c9ee62e25d14841d
-Source1:	http://dl.sourceforge.net/ming/%{name}-perl-%{version}.tar.gz
-# Source1-md5:	506acca9ca42066a97fc0b6abad6d57a
-Source2:	http://dl.sourceforge.net/ming/%{name}-py-%{version}.tar.gz
-# Source2-md5:	96d3f42f13d020d907287a640b39ec46
-Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-build.patch
-Patch2:		%{name}-perl-shared.patch
+Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.bz2
+# Source0-md5:	41f091dee0384a432aa05aca1ec7699b
+Patch0:		%{name}-perl-shared.patch
+Patch1:		%{name}-link.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	giflib-devel
 BuildRequires:	python-devel >= 1:2.4
@@ -79,55 +74,62 @@ Narzędzia Ming:
 - swftophp - próbuje zrobić skrypt php/ming z pliku swf
 
 %package -n perl-ming
-Summary:	Ming perl module
-Summary(pl.UTF-8):	Moduł perla Ming
+Summary:	SWF - Ming interface for Perl
+Summary(pl.UTF-8):	SWF - perlowy interejs do biblioteki Ming
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ming-perl
 
 %description -n perl-ming
-Ming perl module - perl wrapper for Ming library.
+SWF is an autoloadable interface module for Ming - a library for
+generating ShockWave Flash format movies.
 
 %description -n perl-ming -l pl.UTF-8
-Moduł perla Ming - perlowy wrapper do biblioteki Ming.
+SWF to automatycznie ładowany moduł interfejsu do Minga - biblioteki
+do generowania animacji w formacie ShockWave Flash.
 
 %package -n python-ming
-Summary:	Ming Python module
+Summary:	Ming module for Python
 Summary(pl.UTF-8):	Moduł biblioteki Ming dla języka Python
-Group:		Development/Languages/Perl
+Group:		Libraries/Python
 Requires:	%{name} = %{version}-%{release}
 %pyrequires_eq	python-libs
 
 %description -n python-ming
-Ming Python module.
+Ming module for Python.
 
 %description -n python-ming -l pl.UTF-8
 Moduł biblioteki Ming dla języka Python.
 
+%package -n tcl-ming
+Summary:	Ming module for Tcl
+Summary(pl.UTF-8):	Moduł biblioteki Ming dla języka Tcl
+Group:		Development/Languages/Tcl
+Requires:	%{name} = %{version}-%{release}
+Requires:	tcl
+
+%description -n tcl-ming
+Ming module for Tcl.
+
+%description -n tcl-ming -l pl.UTF-8
+Moduł biblioteki Ming dla języka Tcl.
+
 %prep
-%setup -q -b1 -b2
+%setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-
-ln -s src/ming.h
 
 %build
-%configure
-%{__make} -j1
-
-cd perl_ext
-%{__perl} Makefile.PL \
-	INSTALLDIRS=vendor
-%{__make} \
-	CC="%{__cc}" \
-	OPTIMIZE="%{rpmcflags}"
-cd ..
-
-%{__make} -C py_ext \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
-	PYINCDIR=%{py_incdir}
+%{__libtoolize}
+%{__aclocal} -I macros
+%{__autoconf}
+%{__autoheader}
+%{__automake}
+%configure \
+	--enable-perl \
+	--enable-python \
+	--enable-tcl
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -135,20 +137,12 @@ install -d $RPM_BUILD_ROOT%{_libdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-chmod +x $RPM_BUILD_ROOT%{_libdir}/libming.so.0.3.0
 
-%{__make} -C perl_ext pure_install \
-	DESTDIR=$RPM_BUILD_ROOT
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ming/tcl/mingc.{la,a}
+%{__rm} $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
 
-%{__make} -C py_ext install \
-	PREFIX="--optimize=2 --root=$RPM_BUILD_ROOT"
-
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/SWF/.cvsignore
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/libming.a
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/ming.h
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/perl_swf.h
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -158,16 +152,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CREDITS README TODO
+%doc AUTHORS ChangeLog HISTORY NEWS README TODO
 %attr(755,root,root) %{_libdir}/libming.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libming.so.0
+%attr(755,root,root) %ghost %{_libdir}/libming.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libming.so
+%{_libdir}/libming.la
 %{_includedir}/ming.h
 %{_includedir}/mingpp.h
-%{_includedir}/ming_config.h
+%{_pkgconfigdir}/libming.pc
+%{_mandir}/man3/Ming_*.3*
+%{_mandir}/man3/SWF*.3*
+%{_mandir}/man3/destroySWFMovie.3*
+%{_mandir}/man3/newSWF*.3*
 
 %files static
 %defattr(644,root,root,755)
@@ -175,10 +174,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files utils
 %defattr(644,root,root,755)
-%doc util/{README,TODO}
+%doc util/{README,TIPS,TODO}
 %attr(755,root,root) %{_bindir}/dbl2png
 %attr(755,root,root) %{_bindir}/gif2dbl
 %attr(755,root,root) %{_bindir}/gif2mask
+%attr(755,root,root) %{_bindir}/img2swf
 %attr(755,root,root) %{_bindir}/listaction
 %attr(755,root,root) %{_bindir}/listaction_d
 %attr(755,root,root) %{_bindir}/listfdb
@@ -190,11 +190,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/makeswf
 %attr(755,root,root) %{_bindir}/ming-config
 %attr(755,root,root) %{_bindir}/png2dbl
-%attr(755,root,root) %{_bindir}/png2swf
 %attr(755,root,root) %{_bindir}/raw2adpcm
+%attr(755,root,root) %{_bindir}/swftocxx
 %attr(755,root,root) %{_bindir}/swftoperl
 %attr(755,root,root) %{_bindir}/swftophp
 %attr(755,root,root) %{_bindir}/swftopython
+%attr(755,root,root) %{_bindir}/swftotcl
 %{_mandir}/man1/makeswf.1*
 
 %files -n perl-ming
@@ -205,13 +206,21 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{perl_vendorarch}/auto/SWF
 %{perl_vendorarch}/auto/SWF/SWF.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/SWF/SWF.so
-%{_mandir}/man3/SWF*
+%{_mandir}/man3/SWF*.3pm*
 
 %files -n python-ming
 %defattr(644,root,root,755)
 %doc py_ext/{README,TODO}
 %attr(755,root,root) %{py_sitedir}/_mingc.so
-%{py_sitedir}/ming*.py[co]
+%{py_sitedir}/ming.py[co]
+%{py_sitedir}/mingc.py[co]
 %if "%{py_ver}" > "2.4"
 %{py_sitedir}/mingc-*.egg-info
 %endif
+
+%files -n tcl-ming
+%defattr(644,root,root,755)
+%doc tcl_ext/README
+%dir %{_libdir}/ming
+%dir %{_libdir}/ming/tcl
+%attr(755,root,root) %{_libdir}/ming/tcl/mingc.so
