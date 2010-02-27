@@ -3,7 +3,7 @@ Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.3.0
-Release:	9
+Release:	10
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.gz
@@ -16,6 +16,7 @@ Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-build.patch
 Patch2:		%{name}-perl-shared.patch
 Patch3:		%{name}-libpng.patch
+Patch4:		%{name}-build_fix.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	giflib-devel
 BuildRequires:	python-devel >= 1:2.4
@@ -111,6 +112,7 @@ Moduł biblioteki Ming dla języka Python.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 ln -s src/ming.h
 
