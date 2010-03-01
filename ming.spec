@@ -18,7 +18,10 @@ Patch2:		%{name}-perl-shared.patch
 Patch3:		%{name}-libpng.patch
 Patch4:		%{name}-build_fix.patch
 URL:		http://ming.sourceforge.net/
+BuildRequires:	bison
+BuildRequires:	flex
 BuildRequires:	giflib-devel
+BuildRequires:	libpng-devel
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
