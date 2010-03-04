@@ -1,20 +1,20 @@
---- ming-0.3.0/perl_ext/Makefile.PL.orig	2006-02-01 07:45:17.000000000 +0100
-+++ ming-0.3.0/perl_ext/Makefile.PL	2007-02-16 23:14:25.929759689 +0100
-@@ -78,7 +78,7 @@
+--- ming-0.4.3/perl_ext/Makefile.PL.orig	2008-07-13 22:14:52.000000000 +0200
++++ ming-0.4.3/perl_ext/Makefile.PL	2010-03-04 14:00:36.260598946 +0100
+@@ -146,7 +146,7 @@
      clean   => {
          FILES   => "@do_clean",
      },
--    'MYEXTLIB'     => $MING_DIR . '/libming.a',
-+    'MYEXTLIB'     => $MING_DIR . '/libming.so',
+-    'MYEXTLIB'     => $MING_TOP_BUILDDIR . '/src/.libs/libming.a',
++    'MYEXTLIB'     => $MING_TOP_BUILDDIR . '/src/.libs/libming.so',
      'OBJECT'       => "$XS_OBJECTS",
-     #'LIBS'         => [ "-lz" ],
- 		'LIBS'         => [ $libs ],
-@@ -96,7 +96,7 @@
- }
+     'LDFROM'       => "$LD_OBJECTS",
+     'INC'          => "-I$MING_TOP_SRCDIR/src -I$BUILDDIR -I$MING_TOP_BUILDDIR/src -I$SRCDIR",
+@@ -164,7 +164,7 @@
  
- sub ming_is_compiled{
--	return undef unless (-e "$MING_DIR/libming.a");
-+	return undef unless (-e "$MING_DIR/libming.so");
- 	return 1;
- }
+ sub ming_is_compiled
+ {
+-	my $libming = $MING_TOP_BUILDDIR."/src/.libs/libming.a";
++	my $libming = $MING_TOP_BUILDDIR."/src/.libs/libming.so";
  
+ 	if ( -e $libming )
+ 	{
