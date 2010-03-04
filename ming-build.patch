@@ -41,3 +41,14 @@
  makeswf_SOURCES = makeswf.c makeswf_utils.c
  makeswf_LDADD = $(top_builddir)/src/libming.la
  bin_SCRIPTS = ming-config
+--- ming-0.4.3/perl_ext/Makefile.am~	2008-12-22 14:33:58.000000000 +0100
++++ ming-0.4.3/perl_ext/Makefile.am	2010-03-04 15:58:05.882810823 +0100
+@@ -38,7 +38,7 @@
+ 	$(MAKE) -f Makefile.perl install PREFIX=$(prefix)
+ 
+ Makefile.perl: Makefile.PL
+-	srcdir=$(srcdir) builddir=$(abs_builddir) $(PERL) $< PREFIX=$(prefix) FIRST_MAKEFILE=Makefile.perl
++	srcdir=$(srcdir) builddir=$(abs_builddir) $(PERL) $< PREFIX=$(prefix) FIRST_MAKEFILE=Makefile.perl INSTALLDIRS=vendor
+ 
+ clean-local: Makefile.perl
+ 	$(MAKE) -f Makefile.perl realclean

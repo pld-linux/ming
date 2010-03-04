@@ -12,6 +12,9 @@ Patch0:		%{name}-build.patch
 Patch1:		%{name}-perl-shared.patch
 Patch2:		%{name}-libpng.patch
 URL:		http://ming.sourceforge.net/
+BuildRequires:	libtool
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	giflib-devel
@@ -110,11 +113,16 @@ Moduł biblioteki Ming dla języka Python.
 %patch2 -p1
 
 %build
+%{__libtoolize}
+%{__aclocal} -I macros
+%{__autoconf}
+%{__automake}
 %configure \
 	--enable-perl \
 	--enable-python
 
 %{__make} -j1
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -134,16 +142,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CREDITS README TODO
+%doc README TODO
 %attr(755,root,root) %{_libdir}/libming.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libming.so.0
+%attr(755,root,root) %ghost %{_libdir}/libming.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libming.so
+%{_libdir}/libming.la
 %{_includedir}/ming.h
 %{_includedir}/mingpp.h
-%{_includedir}/ming_config.h
+%{_pkgconfigdir}/libming.pc
 
 %files static
 %defattr(644,root,root,755)
@@ -166,12 +175,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/makeswf
 %attr(755,root,root) %{_bindir}/ming-config
 %attr(755,root,root) %{_bindir}/png2dbl
-%attr(755,root,root) %{_bindir}/png2swf
 %attr(755,root,root) %{_bindir}/raw2adpcm
+%attr(755,root,root) %{_bindir}/swftocxx
 %attr(755,root,root) %{_bindir}/swftoperl
 %attr(755,root,root) %{_bindir}/swftophp
 %attr(755,root,root) %{_bindir}/swftopython
-%{_mandir}/man1/makeswf.1*
+%attr(755,root,root) %{_bindir}/swftotcl
 
 %files -n perl-ming
 %defattr(644,root,root,755)
