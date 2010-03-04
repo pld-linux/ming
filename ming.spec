@@ -2,21 +2,15 @@
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
-Version:	0.3.0
-Release:	10
+Version:	0.4.3
+Release:	0.1
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ming/%{name}-%{version}.tar.gz
-# Source0-md5:	56b29eeb4fdd0b98c9ee62e25d14841d
-Source1:	http://dl.sourceforge.net/ming/%{name}-perl-%{version}.tar.gz
-# Source1-md5:	506acca9ca42066a97fc0b6abad6d57a
-Source2:	http://dl.sourceforge.net/ming/%{name}-py-%{version}.tar.gz
-# Source2-md5:	96d3f42f13d020d907287a640b39ec46
-Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-build.patch
-Patch2:		%{name}-perl-shared.patch
-Patch3:		%{name}-libpng.patch
-Patch4:		%{name}-build_fix.patch
+# Source0-md5:	9578ec38d973adabd9e8a534982da0b9
+Patch0:		%{name}-build.patch
+Patch1:		%{name}-perl-shared.patch
+Patch2:		%{name}-libpng.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	bison
 BuildRequires:	flex
@@ -110,31 +104,17 @@ Ming Python module.
 Moduł biblioteki Ming dla języka Python.
 
 %prep
-%setup -q -b1 -b2
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-
-ln -s src/ming.h
 
 %build
-%configure
+%configure \
+	--enable-perl \
+	--enable-python
+
 %{__make} -j1
-
-cd perl_ext
-%{__perl} Makefile.PL \
-	INSTALLDIRS=vendor
-%{__make} \
-	CC="%{__cc}" \
-	OPTIMIZE="%{rpmcflags}"
-cd ..
-
-%{__make} -C py_ext \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
-	PYINCDIR=%{py_incdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -142,20 +122,9 @@ install -d $RPM_BUILD_ROOT%{_libdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-chmod +x $RPM_BUILD_ROOT%{_libdir}/libming.so.0.3.0
 
-%{__make} -C perl_ext pure_install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__make} -C py_ext install \
-	PREFIX="--optimize=2 --root=$RPM_BUILD_ROOT"
-
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/SWF/.cvsignore
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/libming.a
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/ming.h
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/include/perl_swf.h
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
+rm $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
