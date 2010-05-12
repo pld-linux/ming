@@ -1,3 +1,5 @@
+# TODO:
+# - package tcl and php extensions somewhere
 %include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
@@ -12,16 +14,24 @@ Patch0:		%{name}-build.patch
 Patch1:		%{name}-perl-shared.patch
 Patch2:		%{name}-libpng.patch
 URL:		http://ming.sourceforge.net/
-BuildRequires:	libtool
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
+BuildRequires:	freetype-devel
 BuildRequires:	giflib-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
+BuildRequires:	php-devel
+BuildRequires:	php-program
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
+BuildRequires:	swig
+BuildRequires:	swig-tcl
+BuildRequires:	tcl
+BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -119,7 +129,9 @@ Moduł biblioteki Ming dla języka Python.
 %{__automake}
 %configure \
 	--enable-perl \
-	--enable-python
+	--enable-php \
+	--enable-python \
+	--enable-tcl
 
 %{__make} -j1
 
