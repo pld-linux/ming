@@ -1,0 +1,31 @@
+--- ming-0.4.3/src/blocks/pngdbl.c~	2012-02-11 01:44:50.562333329 +0100
++++ ming-0.4.3/src/blocks/pngdbl.c	2012-02-11 01:47:06.689536771 +0100
+@@ -61,7 +61,7 @@
+ }
+ 
+ static int pngReadFunc(png_structp png, unsigned char *buf, int len)
+-{	SWFInput input = (SWFInput) png->io_ptr;
++{	SWFInput input = png_get_io_ptr(png);
+ 	return SWFInput_read(input, buf, len);
+ }
+ 
+@@ -127,7 +127,7 @@
+ 		return 0;
+ 	}
+ 
+-	if(setjmp(png_ptr->jmpbuf))
++	if(setjmp(png_jmpbuf(png_ptr)))
+ 	{
+ 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+     	return 0;
+--- ming-0.4.3/util/png2dbl.c~	2008-12-22 14:33:59.000000000 +0100
++++ ming-0.4.3/util/png2dbl.c	2012-02-11 09:11:58.293241180 +0100
+@@ -91,7 +91,7 @@
+     error("Couldn't create end_info\n");
+   }
+ 
+-  if(setjmp(png_ptr->jmpbuf))
++  if(setjmp(png_jmpbuf(png_ptr)))
+   {
+     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+     fclose(fp);
