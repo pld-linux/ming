@@ -3,7 +3,7 @@ Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.4.3
-Release:	6
+Release:	7
 License:	LGPL
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/ming/%{name}-%{version}.tar.gz
@@ -11,6 +11,7 @@ Source0:	http://downloads.sourceforge.net/ming/%{name}-%{version}.tar.gz
 Patch0:		%{name}-build.patch
 Patch1:		%{name}-perl-shared.patch
 Patch2:		%{name}-libpng.patch
+Patch3:		%{name}-libpng15.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -147,6 +148,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # this is ugly (redoes make in make install), do it ourselves
 echo : > php_ext/make_module.sh
