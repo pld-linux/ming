@@ -148,7 +148,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 
 # this is ugly (redoes make in make install), do it ourselves
 echo : > php_ext/make_module.sh
