@@ -108,7 +108,7 @@ Summary:	Ming module for PHP
 Summary(pl.UTF-8):	Moduł Ming dla PHP
 Group:		Development/Langauges/PHP
 Requires:	%{name} = %{version}-%{release}
-Requires:	php-common >= 4:5.3
+Requires:	php-common >= 4:5.2
 %{?requires_php_extension}
 
 %description -n php-ming
