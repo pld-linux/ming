@@ -108,7 +108,7 @@ Summary:	Ming module for PHP
 Summary(pl.UTF-8):	Moduł Ming dla PHP
 Group:		Development/Langauges/PHP
 Requires:	%{name} = %{version}-%{release}
-Requires:	php-common >= 4:5.2
+Requires:	php-common >= 4:5.3
 %{?requires_php_extension}
 
 %description -n php-ming
@@ -148,7 +148,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
+%patch3 -p1
 
 # this is ugly (redoes make in make install), do it ourselves
 echo : > php_ext/make_module.sh
