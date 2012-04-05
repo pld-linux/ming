@@ -22,7 +22,7 @@ BuildRequires:	giflib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
-BuildRequires:	php-devel
+BuildRequires:	php-devel >= 4:5.3
 BuildRequires:	php-program
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
@@ -108,7 +108,6 @@ Summary:	Ming module for PHP
 Summary(pl.UTF-8):	Moduł Ming dla PHP
 Group:		Development/Langauges/PHP
 Requires:	%{name} = %{version}-%{release}
-Requires:	php-common >= 4:5.3
 %{?requires_php_extension}
 
 %description -n php-ming
