@@ -2,16 +2,14 @@
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
-Version:	0.4.3
-Release:	10
+Version:	0.4.5
+Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/ming/%{name}-%{version}.tar.gz
-# Source0-md5:	9578ec38d973adabd9e8a534982da0b9
-Patch0:		%{name}-build.patch
-Patch1:		%{name}-perl-shared.patch
-Patch2:		%{name}-libpng.patch
-Patch3:		%{name}-libpng15.patch
+# Source0-md5:	a35735a1c4f51681b96bcbfba58db2a0
+Patch0:		%{name}-perl-shared.patch
+Patch1:		am.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -146,11 +144,6 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-
-# this is ugly (redoes make in make install), do it ourselves
-echo : > php_ext/make_module.sh
 
 %build
 %{__libtoolize}
@@ -165,14 +158,6 @@ echo : > php_ext/make_module.sh
 
 %{__make} -j1 \
 	mingc_ladir=%{_libdir}/tclming
-
-mkdir -p php_ext/tmp
-cd php_ext/tmp
-ln -sf ../{ming.c,php_ming.h,config.m4} .
-phpize
-%configure \
-	--with-ming
-%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -1,0 +1,22 @@
+--- ming-0.4.3/configure.in~	2010-02-06 22:49:28.000000000 +0100
++++ ming-0.4.3/configure.in	2013-06-11 14:16:16.657834519 +0200
+@@ -358,7 +358,7 @@
+ AC_SUBST(MICRO_VERSION)
+ AC_SUBST(MING_VERSION)
+ 
+-AM_CONFIG_HEADER(src/ming_config.h)
++AC_CONFIG_HEADERS(src/ming_config.h)
+ AH_TOP(
+ #ifndef __MING_CONFIG_H
+ #define __MING_CONFIG_H
+--- ming-0.4.5/perl_ext/Makefile.am~	2010-10-10 09:19:23.000000000 +0200
++++ ming-0.4.5/perl_ext/Makefile.am	2013-06-11 14:37:29.657952856 +0200
+@@ -38,7 +38,7 @@
+ 	$(MAKE) -f Makefile.perl install PREFIX=$(prefix)
+ 
+ Makefile.perl: Makefile.PL
+-	srcdir=$(srcdir) builddir=$(abs_builddir) $(PERL) $< PREFIX=$(prefix) FIRST_MAKEFILE=Makefile.perl
++	srcdir=$(srcdir) builddir=$(abs_builddir) $(PERL) $< PREFIX=$(prefix) FIRST_MAKEFILE=Makefile.perl INSTALLDIRS=vendor
+ 
+ clean-local: Makefile.perl
+ 	$(MAKE) -f Makefile.perl realclean

@@ -1,14 +1,5 @@
 --- ming-0.4.3/perl_ext/Makefile.PL.orig	2008-07-13 22:14:52.000000000 +0200
 +++ ming-0.4.3/perl_ext/Makefile.PL	2010-03-04 14:00:36.260598946 +0100
-@@ -146,7 +146,7 @@
-     clean   => {
-         FILES   => "@do_clean",
-     },
--    'MYEXTLIB'     => $MING_TOP_BUILDDIR . '/src/.libs/libming.a',
-+    'MYEXTLIB'     => $MING_TOP_BUILDDIR . '/src/.libs/libming.so',
-     'OBJECT'       => "$XS_OBJECTS",
-     'LDFROM'       => "$LD_OBJECTS",
-     'INC'          => "-I$MING_TOP_SRCDIR/src -I$BUILDDIR -I$MING_TOP_BUILDDIR/src -I$SRCDIR",
 @@ -164,7 +164,7 @@
  
  sub ming_is_compiled
