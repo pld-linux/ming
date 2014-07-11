@@ -1,9 +1,13 @@
+#
+# Conditional build:
+%bcond_without	php		# build PHP Binding
+
 %include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.4.5
-Release:	3
+Release:	4
 License:	LGPL
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/ming/%{name}-%{version}.tar.gz
@@ -21,8 +25,6 @@ BuildRequires:	giflib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
-BuildRequires:	php-devel >= 4:5.3
-BuildRequires:	php-program
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
@@ -32,6 +34,10 @@ BuildRequires:	swig-tcl
 BuildRequires:	tcl
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
+%if %{with php}
+BuildRequires:	%{php_name}-cli
+BuildRequires:	%{php_name}-devel >= 4:5.3
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -102,17 +108,17 @@ Ming perl module - perl wrapper for Ming library.
 %description -n perl-ming -l pl.UTF-8
 Moduł perla Ming - perlowy wrapper do biblioteki Ming.
 
-%package -n php-ming
+%package -n %{php_name}-ming
 Summary:	Ming module for PHP
 Summary(pl.UTF-8):	Moduł Ming dla PHP
-Group:		Development/Langauges/PHP
+Group:		Development/Languages/PHP
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
 
-%description -n php-ming
+%description -n %{php_name}-ming
 PHP interface to Ming SWF generating library.
 
-%description -n php-ming -l pl.UTF-8
+%description -n %{php_name}-ming -l pl.UTF-8
 Interfejs PHP do biblioteki Ming generującej pliki SWF.
 
 %package -n python-ming
@@ -120,7 +126,7 @@ Summary:	Ming Python module
 Summary(pl.UTF-8):	Moduł biblioteki Ming dla języka Python
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
-%pyrequires_eq	python-libs
+Requires:	python-libs
 
 %description -n python-ming
 Ming Python module.
@@ -131,7 +137,7 @@ Moduł biblioteki Ming dla języka Python.
 %package -n tcl-ming
 Summary:	Ming module for Tcl
 Summary(pl.UTF-8):	Moduł Ming dla Tcl-a
-Group:		Development/Langauges/Tcl
+Group:		Development/Languages/Tcl
 Requires:	%{name} = %{version}-%{release}
 Requires:	tcl
 
@@ -154,28 +160,30 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %{__automake}
 %configure \
 	--enable-perl \
-	--enable-php \
+	%{?with_php:--enable-php} \
 	--enable-python \
-	--disable-silent-rules \
-	--enable-tcl
+	--enable-tcl \
+	--disable-silent-rules
 
 %{__make} -j1 \
 	mingc_ladir=%{_libdir}/tclming
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	mingc_ladir=%{_libdir}/tclming
 
+%if %{with php}
 install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
 cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/ming.ini
 ; Enable ming extension module
 extension=ming.so
 EOF
+%endif
 
 %{__rm} $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
+%{__rm} $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/tclming/*.{la,a}
 
@@ -237,10 +245,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{perl_vendorarch}/auto/SWF/SWF.so
 %{_mandir}/man3/SWF*
 
-%files -n php-ming
+%if %{with php}
+%files -n %{php_name}-ming
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/ming.ini
 %attr(755,root,root) %{php_extensiondir}/ming.so
+%endif
 
 %files -n python-ming
 %defattr(644,root,root,755)
