@@ -241,7 +241,6 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/SWF.pm
 %{perl_vendorarch}/SWF
 %dir %{perl_vendorarch}/auto/SWF
-%{perl_vendorarch}/auto/SWF/SWF.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/SWF/SWF.so
 %{_mandir}/man3/SWF*
 
