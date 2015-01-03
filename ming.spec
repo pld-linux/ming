@@ -15,6 +15,7 @@ Source0:	http://downloads.sourceforge.net/ming/%{name}-%{version}.tar.gz
 Patch0:		%{name}-perl-shared.patch
 Patch1:		am.patch
 Patch2:		%{name}-giflib.patch
+Patch3:		tcl-libx32.patch
 URL:		http://ming.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -152,6 +153,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__libtoolize}
