@@ -1,35 +1,40 @@
 #
 # Conditional build:
-%bcond_without	php		# build PHP Binding
+%bcond_without	php	# PHP binding
+%bcond_with	java	# Java binding (native library build broken)
+%bcond_with	ruby	# Ruby binding (unfinished)
 
 %include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
-Version:	0.4.5
-Release:	12
-License:	LGPL
+Version:	0.4.8
+%define	ver_tag	%(echo %{version} | tr . _)
+Release:	1
+License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/ming/%{name}-%{version}.tar.gz
-# Source0-md5:	a35735a1c4f51681b96bcbfba58db2a0
+#Source0Download: https://github.com/libming/libming/releases
+Source0:	https://github.com/libming/libming/archive/%{name}-%{ver_tag}.tar.gz
+# Source0-md5:	70c28c1e41d5888aa158e6e15644b742
 Patch0:		%{name}-perl-shared.patch
 Patch1:		am.patch
-Patch2:		%{name}-giflib.patch
 Patch3:		tcl-libx32.patch
-URL:		http://ming.sourceforge.net/
+URL:		http://www.libming.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-BuildRequires:	freetype-devel
-BuildRequires:	giflib-devel
+BuildRequires:	freetype-devel >= 2
+BuildRequires:	giflib-devel >= 4.1
+%{?with_java:BuildRequires:	jdk}
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:1.5
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.344
+%{?with_ruby:BuildRequires:	ruby-devel}
 BuildRequires:	swig
 BuildRequires:	swig-tcl
 BuildRequires:	tcl
@@ -96,6 +101,18 @@ Narzędzia Ming:
 - makefdb - wyciąga pliki definicji fontów fdb z pliku generatora
 - swftophp - próbuje zrobić skrypt php/ming z pliku swf
 
+%package -n java-ming
+Summary:	Ming Java classes
+Summary(pl.UTF-8):	Klasy Ming dla Javy
+Group:		Libraries/Java
+Requires:	%{name} = %{version}-%{release}
+
+%description -n java-ming
+Ming Java classes.
+
+%description -n java-ming -l pl.UTF-8
+Klasy Ming dla Javy.
+
 %package -n perl-ming
 Summary:	Ming Perl module
 Summary(pl.UTF-8):	Moduł Perla Ming
@@ -149,16 +166,16 @@ Tcl interface to Ming SWF generating library.
 Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 
 %prep
-%setup -q
+%setup -q -n libming-%{name}-%{ver_tag}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 
 %build
 %{__libtoolize}
 %{__aclocal} -I macros
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure \
 	--enable-perl \
@@ -169,6 +186,28 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 
 %{__make} -j1 \
 	mingc_ladir=%{_libdir}/tclming
+
+%if %{with java}
+%{__make} -C java_ext
+CXXFLAGS="%{rpmcxxflags} %{rpmcppflags}" \
+%{__make} -C java_ext/native \
+	CXX="%{__cxx}" \
+	LDFLAGS="%{rpmldflags} -L../../src/.libs -lming" \
+	JAVADIR=%{_jvmdir}/java \
+	NOVAR_SHLIBEXT=".so"
+%endif
+
+%if %{with ruby}
+cd rb_ext
+ln -sf ../src/.libs/libming.so .
+ruby extconf.rb \
+	--with-ming-include=../src \
+        --with-ming-lib=../src/.libs
+%{__make} \
+	CC="%{__cc}" \
+	optflags="%{rpmcflags}"
+cd ..
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -184,6 +223,16 @@ extension=ming.so
 EOF
 %endif
 
+%if %{with java}
+install -Dp java_ext/jswf.jar RPM_BUILD_ROOT%{_javadir}/jswf.jar
+install java_ext/native/libjswf.so $RPM_BUILD_ROOT%{_libdir}
+%endif
+
+%if %{with ruby}
+%{__make} -C rb_ext install \
+	DESTDIR=$RPM_BUILD_ROOT
+%endif
+
 %{__rm} $RPM_BUILD_ROOT%{perl_vendorarch}/auto/SWF/.packlist
 %{__rm} $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
@@ -197,7 +246,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README TODO
+%doc AUTHORS NEWS README TODO
 %attr(755,root,root) %{_libdir}/libming.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libming.so.1
 
@@ -237,6 +286,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/swftopython
 %attr(755,root,root) %{_bindir}/swftotcl
 
+%if %{with java}
+%files -n java-ming
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libjswf.so
+%{_javadir}/jswf.jar
+%endif
+
 %files -n perl-ming
 %defattr(644,root,root,755)
 %doc perl_ext/{README,TODO}
@@ -244,7 +300,7 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/SWF
 %dir %{perl_vendorarch}/auto/SWF
 %attr(755,root,root) %{perl_vendorarch}/auto/SWF/SWF.so
-%{_mandir}/man3/SWF*
+%{_mandir}/man3/SWF*.3pm*
 
 %if %{with php}
 %files -n %{php_name}-ming
@@ -259,7 +315,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{py_sitedir}/_mingc.so
 %{py_sitedir}/ming*.py[co]
 %if "%{py_ver}" > "2.4"
-%{py_sitedir}/mingc-*.egg-info
+%{py_sitedir}/mingc-%{version}-py*.egg-info
 %endif
 
 %files -n tcl-ming
