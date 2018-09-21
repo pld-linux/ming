@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.4.8
 %define	ver_tag	%(echo %{version} | tr . _)
-Release:	7
+Release:	8
 License:	LGPL v2.1+
 Group:		Libraries
 #Source0Download: https://github.com/libming/libming/releases
@@ -41,7 +41,7 @@ BuildRequires:	tcl
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
 %if %{with php}
-BuildRequires:	%{php_name}-cli
+BuildRequires:	%{php_name}-program
 BuildRequires:	%{php_name}-devel >= 4:5.3
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
