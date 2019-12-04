@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	php	# PHP binding
+%bcond_with	php	# PHP binding
 %bcond_with	java	# Java binding (native library build broken)
 %bcond_with	ruby	# Ruby binding (unfinished)
 
