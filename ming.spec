@@ -4,7 +4,6 @@
 %bcond_with	java	# Java binding (native library build broken)
 %bcond_with	ruby	# Ruby binding (unfinished)
 
-%include	/usr/lib/rpm/macros.perl
 Summary:	Ming - an SWF output library
 Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
