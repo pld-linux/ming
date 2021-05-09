@@ -1,0 +1,22 @@
+--- libming-ming-0_4_8/src/actioncompiler/swf4compiler.flex~	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/src/actioncompiler/swf4compiler.flex	2021-05-09 17:42:52.808267002 +0200
+@@ -9,7 +9,7 @@
+ #include "blocks/error.h"
+ #include "swf4compiler.tab.h" /* defines token types */
+ 
+-int swf4debug;
++//int swf4debug;
+ 
+ static const char *lexBuffer = NULL;
+ static int lexBufferLen = 0;
+--- libming-ming-0_4_8/src/actioncompiler/swf5compiler.flex~	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/src/actioncompiler/swf5compiler.flex	2021-05-09 17:41:58.057947945 +0200
+@@ -9,7 +9,7 @@
+ #include "blocks/error.h"
+ #include "swf5compiler.tab.h" /* defines token types */
+ 
+-int swf5debug;
++//int swf5debug;
+ 
+ static const char *lexBuffer = NULL;
+ static int lexBufferLen = 0;

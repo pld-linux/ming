@@ -9,7 +9,7 @@ Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.4.8
 %define	ver_tag	%(echo %{version} | tr . _)
-Release:	11
+Release:	12
 License:	LGPL v2.1+
 Group:		Libraries
 #Source0Download: https://github.com/libming/libming/releases
@@ -17,6 +17,7 @@ Source0:	https://github.com/libming/libming/archive/%{name}-%{ver_tag}.tar.gz
 # Source0-md5:	70c28c1e41d5888aa158e6e15644b742
 Patch0:		%{name}-perl-shared.patch
 Patch1:		am.patch
+Patch2:		flex.patch
 Patch3:		tcl-libx32.patch
 URL:		http://www.libming.net/
 BuildRequires:	autoconf
@@ -168,6 +169,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %setup -q -n libming-%{name}-%{ver_tag}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 %patch3 -p1
 
 %build
