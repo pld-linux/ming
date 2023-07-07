@@ -1,0 +1,11 @@
+--- libming-ming-0_4_8/configure.in.orig	2023-07-07 10:32:34.180798498 +0200
++++ libming-ming-0_4_8/configure.in	2023-07-07 10:33:17.083250494 +0200
+@@ -217,6 +217,8 @@
+ AC_SUBST(TCL_LIB_DIR)
+ AC_SUBST(TCL_INC_DIR)
+ 
++AC_PATH_PROG(SWIG, swig)
++
+ dnl --------------------------------------------
+ dnl Check for required programs
+ dnl --------------------------------------------

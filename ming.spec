@@ -19,6 +19,7 @@ Patch0:		%{name}-perl-shared.patch
 Patch1:		am.patch
 Patch2:		flex.patch
 Patch3:		tcl-libx32.patch
+Patch4:		swig.patch
 URL:		http://www.libming.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -35,8 +36,8 @@ BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.344
 %{?with_ruby:BuildRequires:	ruby-devel}
-BuildRequires:	swig
-BuildRequires:	swig-tcl
+BuildRequires:	swig3
+BuildRequires:	swig3-tcl
 BuildRequires:	tcl
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
@@ -171,6 +172,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__libtoolize}
@@ -179,6 +181,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %{__autoheader}
 %{__automake}
 %configure \
+	SWIG=/usr/bin/swig-3 \
 	--enable-perl \
 	%{?with_php:--enable-php} \
 	--enable-python \
