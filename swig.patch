@@ -9,3 +9,22 @@
  dnl --------------------------------------------
  dnl Check for required programs
  dnl --------------------------------------------
+--- libming-ming-0_4_8/py_ext/Makefile.am.orig	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/py_ext/Makefile.am	2023-07-07 10:39:32.337887744 +0200
+@@ -12,7 +12,7 @@
+ 	CFLAGS="$(CFLAGS) -fno-strict-aliasing" $(PYTHON) setup.py build
+ 
+ ming_wrap.c: ../ming.i
+-	swig -I$(srcdir)/.. -python ming.i
++	$(SWIG) -I$(srcdir)/.. -python ming.i
+ 
+ clean-local:
+ 	rm -Rf test.swf build
+--- libming-ming-0_4_8/tcl_ext/Makefile.am.orig	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/tcl_ext/Makefile.am	2023-07-07 10:39:26.271372423 +0200
+@@ -17,4 +17,4 @@
+ EXTRA_DIST = test.tcl MANIFEST
+ 
+ ming_wrap.c: ../ming.i
+-	swig -I$(srcdir)/.. -tcl ming.i
++	$(SWIG) -I$(srcdir)/.. -tcl ming.i
