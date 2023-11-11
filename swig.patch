@@ -16,7 +16,7 @@
  
  ming_wrap.c: ../ming.i
 -	swig -I$(srcdir)/.. -python ming.i
-+	$(SWIG) -I$(srcdir)/.. -python ming.i
++	$(SWIG) -I$(srcdir)/.. -outcurrentdir -python $(srcdir)/../ming.i
  
  clean-local:
  	rm -Rf test.swf build
@@ -27,4 +27,57 @@
  
  ming_wrap.c: ../ming.i
 -	swig -I$(srcdir)/.. -tcl ming.i
-+	$(SWIG) -I$(srcdir)/.. -tcl ming.i
++	$(SWIG) -I$(srcdir)/.. -outcurrentdir -tcl $(srcdir)/../ming.i
+--- libming-ming-0_4_8/ming.i.orig	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/ming.i	2023-11-11 21:08:14.719238734 +0100
+@@ -11,7 +11,8 @@
+ 
+ %}
+ 
+-%typemap(python,in) FILE * {
++#ifdef SWIGpython
++%typemap(in) FILE * {
+   if (!PyFile_Check($input)) {
+     PyErr_SetString(PyExc_TypeError, "Need a file!");
+     return NULL;
+@@ -19,25 +20,29 @@
+   $1 = PyFile_AsFile($input);
+ }
+ 
+-%typemap(python,in) char * {
++%typemap(in) char * {
+   if (!PyString_Check($input)) {
+     PyErr_SetString(PyExc_TypeError, "not a string");
+     return NULL;
+   }
+   $1 = PyString_AsString($input);
+ }
++#endif
+ 
+ typedef unsigned char byte;
+ 
+-%typemap(python,in) byte * {
++#ifdef SWIGpython
++%typemap(in) byte * {
+   if (!PyString_Check($input)) {
+     PyErr_SetString(PyExc_TypeError, "not a string");
+     return NULL;
+   }
+   $1 = PyString_AsString($input);
+ }
++#endif
+ 
+-%typemap(ruby,in) int * {
++#ifdef SWIGruby
++%typemap(in) int * {
+   if (NIL_P($input)) {
+          $1 = 0;
+   } else {
+@@ -45,6 +50,7 @@ typedef unsigned char byte;
+     $1 = (int *)RARRAY($input)->ptr;
+   }
+ }
++#endif
+ 
+ %pointer_functions(int, intp);
+ %pointer_functions(float, floatp);

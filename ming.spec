@@ -9,7 +9,7 @@ Summary(pl.UTF-8):	Ming - biblioteka do produkcji plików SWF
 Name:		ming
 Version:	0.4.8
 %define	ver_tag	%(echo %{version} | tr . _)
-Release:	15
+Release:	16
 License:	LGPL v2.1+
 Group:		Libraries
 #Source0Download: https://github.com/libming/libming/releases
@@ -36,8 +36,8 @@ BuildRequires:	rpm-perlprov >= 4.0.2-24
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.344
 %{?with_ruby:BuildRequires:	ruby-devel}
-BuildRequires:	swig3
-BuildRequires:	swig3-tcl
+BuildRequires:	swig
+BuildRequires:	swig-tcl
 BuildRequires:	tcl
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
@@ -119,7 +119,7 @@ Summary:	Ming Perl module
 Summary(pl.UTF-8):	Moduł Perla Ming
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	ming-perl
+Obsoletes:	ming-perl < 0.2a-1
 
 %description -n perl-ming
 Ming perl module - perl wrapper for Ming library.
@@ -181,7 +181,6 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %{__autoheader}
 %{__automake}
 %configure \
-	SWIG=/usr/bin/swig-3 \
 	--enable-perl \
 	%{?with_php:--enable-php} \
 	--enable-python \
@@ -215,6 +214,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	mingc_ladir=%{_libdir}/tclming
@@ -241,6 +241,8 @@ install java_ext/native/libjswf.so $RPM_BUILD_ROOT%{_libdir}
 %{__rm} $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
 %{__rm} $RPM_BUILD_ROOT%{py_sitedir}/ming*.py
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/tclming/*.{la,a}
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libming.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -257,7 +259,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libming.so
-%{_libdir}/libming.la
 %{_includedir}/ming.h
 %{_includedir}/mingpp.h
 %{_pkgconfigdir}/libming.pc
