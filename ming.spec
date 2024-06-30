@@ -181,6 +181,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %{__autoheader}
 %{__automake}
 %configure \
+	PYTHON="%{__python}" \
 	--enable-perl \
 	%{?with_php:--enable-php} \
 	--enable-python \
@@ -205,7 +206,7 @@ cd rb_ext
 ln -sf ../src/.libs/libming.so .
 ruby extconf.rb \
 	--with-ming-include=../src \
-        --with-ming-lib=../src/.libs
+	--with-ming-lib=../src/.libs
 %{__make} \
 	CC="%{__cc}" \
 	optflags="%{rpmcflags}"
