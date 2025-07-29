@@ -1,0 +1,21 @@
+--- libming-ming-0_4_8/src/ming.h.in.orig	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/src/ming.h.in	2025-07-29 18:29:39.083778043 +0200
+@@ -542,7 +542,7 @@
+ void SWFTextField_addChars(SWFTextField field, const char *string);
+ 
+   /* deprecated? */
+-  /*void SWFTextField_addUTF8Chars(SWFTextField field, const char *string);*/
++void SWFTextField_addUTF8Chars(SWFTextField field, const char *string);
+ 
+ void SWFTextField_setAlignment(SWFTextField field,
+ 			       SWFTextFieldAlignment alignment);
+--- libming-ming-0_4_8/perl_ext/Font.xs.orig	2017-04-07 10:12:56.000000000 +0200
++++ libming-ming-0_4_8/perl_ext/Font.xs	2025-07-29 18:33:29.977773581 +0200
+@@ -14,6 +14,7 @@
+ #include "XSUB.h"
+ 
+ #include "SWF.h"
++#include "blocks/block.h"
+ #include "perl_swf.h"
+ 
+ 

@@ -20,6 +20,7 @@ Patch1:		am.patch
 Patch2:		flex.patch
 Patch3:		tcl-libx32.patch
 Patch4:		swig.patch
+Patch5:		prototypes.patch
 URL:		http://www.libming.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -173,6 +174,7 @@ Interfejs Tcl do biblioteki Ming generującej pliki SWF.
 %patch -P2 -p1
 %patch -P3 -p1
 %patch -P4 -p1
+%patch -P5 -p1
 
 %build
 %{__libtoolize}
